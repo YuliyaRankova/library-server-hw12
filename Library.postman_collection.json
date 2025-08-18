@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "3706ba8a-47f2-4889-87b4-7fb8e9eb9bc4",
+		"name": "Library",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39369107",
+		"_collection_link": "https://java-27-30-9517.postman.co/workspace/Java-27-30~3fb984ac-0e15-4060-b2d4-d45e7bfeebb1/collection/39369107-3706ba8a-47f2-4889-87b4-7fb8e9eb9bc4?action=share&source=collection_link&creator=39369107"
+	},
+	"item": [
+		{
+			"name": "addBook",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"title\": \"1984\",\r\n    \"author\": \"Orwell\",\r\n    \"genre\": \"dystopia\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllBooks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBooksByGenre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/books/genre?genre=classic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"genre"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "classic"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeBook",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/books/27f36881-04d0-4270-acf2-76e8529dd076",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"27f36881-04d0-4270-acf2-76e8529dd076"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pickUpBook",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/books/pickup?id=cfa7059e-3019-40f8-8aa0-ff164feb1421&reader=Villy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"pickup"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "cfa7059e-3019-40f8-8aa0-ff164feb1421"
+						},
+						{
+							"key": "reader",
+							"value": "Villy"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "returnBook",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/books/return?id=cfa7059e-3019-40f8-8aa0-ff164feb1421",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"return"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "cfa7059e-3019-40f8-8aa0-ff164feb1421"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBookById",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books/book?id=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"book"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBooksByGenreAndStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/books/genre_status?genre=classic&status=on_hand",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"genre_status"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "classic"
+						},
+						{
+							"key": "status",
+							"value": "on_hand"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
