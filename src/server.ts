@@ -5,6 +5,7 @@ import {errorHandler} from "./errorHandler/errorHandler.ts";
 import morgan from "morgan";
 import * as fs from "node:fs";
 import dotenv from "dotenv";
+import {accountRouter} from "./routes/accountRouter.js";
 
 export const launchServer = () => {
     //======= Load environments ==========
@@ -22,6 +23,7 @@ export const launchServer = () => {
 
     //ROUTER
     app.use('/api', libRouter);
+    app.use('/accounts', accountRouter);
     app.use((req: Request, res: Response) => {
         res.status(404).send("Page not found")
     });

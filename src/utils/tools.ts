@@ -1,7 +1,9 @@
 // import {BookDto, BookGenres, BookStatus, PickRecord} from "../model/Book.ts";
-import {BookDto, BookGenres, BookStatus} from "../model/BookSQL.ts";
+import {BookDto, BookGenres, BookStatus} from "../model/Book.ts";
 import {v4 as uuidv4} from 'uuid';
 import {HttpError} from "../errorHandler/HttpError.js";
+import {Reader, ReaderDto} from "../model/Reader.js";
+import bcrypt from "bcryptjs";
 
 export const convertBookDtoToBook = (dto: BookDto) =>{
     return {
@@ -12,6 +14,19 @@ export const convertBookDtoToBook = (dto: BookDto) =>{
         status: BookStatus.ON_STOCK,
         pickList: []
     }
+};
+
+export const convertReaderDtoToReader = (dto:ReaderDto):Reader =>{
+   const salt = bcrypt.genSaltSync(10);
+   const hash = bcrypt.hashSync(dto.password, salt);
+
+   return {
+       _id:dto.id,
+       userName: dto.userName,
+       email:dto.email,
+       birthdate:dto.birthdate,
+       passHash:hash
+   }
 };
 
 export function getGenre (genre: string){

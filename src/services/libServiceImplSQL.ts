@@ -1,5 +1,5 @@
 import {LibService} from "./libService.js";
-import {Book, BookGenres, BookStatus, Reader} from "../model/BookSQL.js";
+import {Book, BookGenres, BookStatus} from "../model/Book.js";
 import {pool} from "../config/libConfig.js";
 import {ResultSetHeader, RowDataPacket} from "mysql2";
 import {HttpError} from "../errorHandler/HttpError.js";
@@ -46,8 +46,10 @@ export class LibServiceImplSQL implements LibService{
             readerId = await this.createReader(reader);
         };
         const pickDate = new Date().toISOString().slice(0,10);
+        // const pickDate = new Date().toDateString();
 
-        await pool.query('INSERT INTO books_readers (book_id, reader_id, pick_date) VALUES (?,?,?)', [id, readerId, pickDate]);
+        const books_readersId = uuidv4();
+        await pool.query('INSERT INTO books_readers (id, book_id, reader_id, pick_date) VALUES (?,?,?,?)', [books_readersId, id, readerId, pickDate]);
 
         await pool.query('UPDATE books SET status=? WHERE id=?', [BookStatus.ON_HAND, id])
     };
@@ -69,6 +71,7 @@ export class LibServiceImplSQL implements LibService{
             throw new HttpError(409, "Book is on stock");
 
         const returnDate = new Date().toISOString().slice(0, 10);
+        // const returnDate = new Date().toDateString();
 
         await pool.query('UPDATE books_readers SET return_date=? WHERE book_id=? AND return_date IS NULL', [returnDate, id]);
 
