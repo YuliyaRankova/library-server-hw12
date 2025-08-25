@@ -9,4 +9,4 @@ export const bodyValidation = (schema:ObjectSchema ) =>
         const {error} = schema.validate(req.body)
         if(error) throw new HttpError(400, error.message)
         next();
-    }
+    };

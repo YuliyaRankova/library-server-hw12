@@ -17,5 +17,17 @@ export const ReaderDtoSchema = Joi.object({
 
 export const ChangePasswordDtoSchema = Joi.object({
     id:Joi.number().positive().max(999999999).min(100000000).required(), // teudat zeut
-    password:Joi.string().alphanum().min(8).required()
+    oldPassword:Joi.string().alphanum().min(8).required(),
+    newPassword:Joi.string().alphanum().min(8).required()
+});
+
+export const ChangeReaderDataDtoSchema = Joi.object({
+    id:Joi.number().positive().max(999999999).min(100000000).required(), // teudat zeut
+    newUserName: Joi.string().min(1).required(),
+    newEmail:Joi.string().email().required(),
+    newBirthDate:Joi.string().required()
+});
+
+export const ReaderIdDtoSchema = Joi.object({
+    id:Joi.number().integer().positive().max(999999999).min(100000000).required(), // teudat zeut
 });

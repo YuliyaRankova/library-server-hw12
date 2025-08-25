@@ -1,11 +1,15 @@
 import express, {Request, Response, NextFunction} from 'express';
-import {PORT} from "./config/libConfig.ts";
+import {PORT, protectedRoutes, publicRoutes, SKIP_ROUTES} from "./config/libConfig.ts";
 import {libRouter} from "./routes/libRouter.ts";
 import {errorHandler} from "./errorHandler/errorHandler.ts";
 import morgan from "morgan";
 import * as fs from "node:fs";
 import dotenv from "dotenv";
 import {accountRouter} from "./routes/accountRouter.js";
+import {authenticate, skipRoutes} from "./middleware/authentication.js";
+import {accountServiceMongo} from "./services/accountServiceImplMongo.js";
+import {authorize} from "./middleware/authorization.js";
+
 
 export const launchServer = () => {
     //======= Load environments ==========
@@ -17,13 +21,17 @@ export const launchServer = () => {
     const logStream = fs.createWriteStream("access.log", {flags: "a"});
 
     //MIDDLEWARE
+    app.use(authenticate(accountServiceMongo));
+    app.use(skipRoutes(SKIP_ROUTES));
+    app.use(authorize(protectedRoutes, publicRoutes));
+
     app.use(express.json()); // parse stream into json
     app.use(morgan("dev")); // token: "dev", "short"
     app.use(morgan("combined", {stream: logStream}));
 
     //ROUTER
-    app.use('/api', libRouter);
     app.use('/accounts', accountRouter);
+    app.use('/api', libRouter);
     app.use((req: Request, res: Response) => {
         res.status(404).send("Page not found")
     });

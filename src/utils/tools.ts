@@ -4,6 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 import {HttpError} from "../errorHandler/HttpError.js";
 import {Reader, ReaderDto} from "../model/Reader.js";
 import bcrypt from "bcryptjs";
+import {Roles} from "./libTypes.js";
 
 export const convertBookDtoToBook = (dto: BookDto) =>{
     return {
@@ -25,7 +26,9 @@ export const convertReaderDtoToReader = (dto:ReaderDto):Reader =>{
        userName: dto.userName,
        email:dto.email,
        birthdate:dto.birthdate,
-       passHash:hash
+       passHash:hash,
+       role: Roles.USER
+       // role: Roles.ADMIN
    }
 };
 
@@ -42,3 +45,10 @@ export function getStatus (status: string){
     else
         return bookStatus
 };
+
+export const checkReaderId = (id: string | undefined) => {
+    if (!id) throw new HttpError(400, "No ID in request");
+    const _id = parseInt(id as string);
+    if (!_id) throw new HttpError(400, "ID must be a number");
+    return _id;
+}

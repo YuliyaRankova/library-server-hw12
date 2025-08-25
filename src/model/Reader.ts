@@ -1,3 +1,4 @@
+import {Roles} from "../utils/libTypes.js";
 
 export type ReaderDto ={
     id:number, // teudat zeut
@@ -12,6 +13,7 @@ export type Reader ={
     userName: string,
     email:string,
     birthdate:string,
-    passHash:string
+    passHash:string,
+    role:Roles
 };
 
