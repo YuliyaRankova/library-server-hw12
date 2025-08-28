@@ -1,5 +1,5 @@
 import express, {Request, Response, NextFunction} from 'express';
-import {PORT, protectedRoutes, publicRoutes, SKIP_ROUTES} from "./config/libConfig.ts";
+import {CHECK_ID_ROUTES, PATH_ROUTES, SKIP_ROUTES} from "./config/libConfig.ts";
 import {libRouter} from "./routes/libRouter.ts";
 import {errorHandler} from "./errorHandler/errorHandler.ts";
 import morgan from "morgan";
@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 import {accountRouter} from "./routes/accountRouter.js";
 import {authenticate, skipRoutes} from "./middleware/authentication.js";
 import {accountServiceMongo} from "./services/accountServiceImplMongo.js";
-import {authorize} from "./middleware/authorization.js";
+import {authorize, checkAccountById} from "./middleware/authorization.js";
 
 
 export const launchServer = () => {
@@ -23,9 +23,10 @@ export const launchServer = () => {
     //MIDDLEWARE
     app.use(authenticate(accountServiceMongo));
     app.use(skipRoutes(SKIP_ROUTES));
-    app.use(authorize(protectedRoutes, publicRoutes));
+    app.use(authorize(PATH_ROUTES));
 
     app.use(express.json()); // parse stream into json
+    app.use(checkAccountById(CHECK_ID_ROUTES));
     app.use(morgan("dev")); // token: "dev", "short"
     app.use(morgan("combined", {stream: logStream}));
 

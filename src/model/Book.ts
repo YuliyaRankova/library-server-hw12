@@ -31,7 +31,7 @@ export enum BookStatus {
 };
 
 export type PickRecord = {
-    reader: string,
+    reader: number,
     pick_date: string,
     return_date: string | null // when book firstly taken this field is null
 };

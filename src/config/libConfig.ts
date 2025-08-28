@@ -16,14 +16,21 @@ export const pool = mysql.createPool({
 });
 
 export const SKIP_ROUTES = [
-    "POST/accounts"
+    "POST/accounts", "GET/api/books"
 ];
 
-export const protectedRoutes: Record<string, Roles[]>={
-    "PATCH/accounts/password": [Roles.USER],
-    "PATCH/accounts/reader_data": [Roles.USER],
-    "GET/accounts/reader": [Roles.USER, Roles.ADMIN],
-    "DELETE/accounts": [Roles.USER, Roles.ADMIN]
+export const PATH_ROUTES = {
+    "GET/accounts/reader" : [Roles.USER, Roles.ADMIN, Roles.LIBRARIAN],
+    "PATCH/accounts/password" : [Roles.USER, Roles.LIBRARIAN],
+    "PATCH/accounts/update" : [Roles.USER, Roles.ADMIN, Roles.LIBRARIAN],
+    "DELETE/accounts" : [Roles.SUPERVISOR],
+    "PUT/accounts/roles" : [Roles.SUPERVISOR],
+    "POST/api/books": [Roles.LIBRARIAN],
+    "GET/api/books": [Roles.LIBRARIAN],
+    "DELETE/api/books": [Roles.LIBRARIAN],
+    "PATCH/api/books/pickup": [Roles.LIBRARIAN],
+    "PATCH/api/books/return": [Roles.LIBRARIAN],
+    "GET/api/books/books": [Roles.LIBRARIAN]
 };
 
-export const publicRoutes=["POST/accounts"];
+export const CHECK_ID_ROUTES = ["GET/accounts/reader", "PATCH/accounts/password", "PATCH/accounts/update"];

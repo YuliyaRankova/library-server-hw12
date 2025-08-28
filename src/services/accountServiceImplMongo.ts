@@ -3,6 +3,8 @@ import {Reader} from "../model/Reader.js";
 import {ReaderModel} from "../model/ReaderMongooseModel.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 import bcrypt from "bcryptjs";
+import {Roles} from "../utils/libTypes.js";
+// import {updateAccount} from "../controllers/AccountController.js";
 
 export class AccountServiceImplMongo implements AccountService{
 
@@ -32,7 +34,7 @@ export class AccountServiceImplMongo implements AccountService{
         }
     };
 
-    async changeReaderData(id: number, newEmail: string, newUserName: string, newBirthDate:string): Promise<void> {
+    async updateReaderAccount(id: number, newEmail: string, newUserName: string, newBirthDate:string): Promise<void> {
         const account = await ReaderModel.findById(id);
         if (!account) throw new HttpError(404, `Account not found`);
 
@@ -47,6 +49,21 @@ export class AccountServiceImplMongo implements AccountService{
         if (!account) throw new HttpError(404, `Account not found`);
         return account as unknown as Reader;
     };
+
+    async changeRoles(id:number, roles:Roles[]):Promise<Reader>{
+        const account = await ReaderModel.findById(id);
+        if (!account) throw new HttpError(404, `Account not found`);
+        account.role = roles;
+        await account.save();
+        return account as Reader;
+    }
+
+//     async updateAccount(updReader: Reader) {
+//       const result = await ReaderModel.findByIdAndUpdate(updReader._id,
+//           {userName: updReader.userName, email: updReader.email, birthdate:updReader.birthdate}, {new:true});
+//       if(!result) throw new HttpError(404, "Account not found");
+//       return result as unknown as Reader
+// };
 
 };
 

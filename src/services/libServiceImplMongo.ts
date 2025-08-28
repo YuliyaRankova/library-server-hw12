@@ -35,7 +35,7 @@ export class LibServiceImplMongo implements LibService{
         return Promise.resolve(result);
     }
 
-    async pickUpBook(id: string, reader: string): Promise<void> {
+    async pickUpBook(id: string, readerId: number): Promise<void> {
         const bookDoc = await BookMongooseModel.findById(id).exec();
         if(!bookDoc)
             throw new HttpError(404, `Book with id ${id} not found`);
@@ -43,7 +43,7 @@ export class LibServiceImplMongo implements LibService{
             throw new HttpError(409, "Book is on hand");
         bookDoc.status = BookStatus.ON_HAND;
         bookDoc.pickList.push({
-            reader:reader,
+            reader:readerId,
             pick_date: new Date().toDateString(),
             return_date:null
         });
@@ -71,6 +71,13 @@ export class LibServiceImplMongo implements LibService{
     async getBooksByGenreAndStatus(genre: BookGenres, status: BookStatus) {
         const result = await BookMongooseModel.find({genre, status}).exec() as Book[];
         return Promise.resolve(result)
+    };
+
+    async getBooksPickedUpByReader(readerId:number){
+        const result = await BookMongooseModel.find({
+            pickList:{$elemMatch: {reader:readerId}}
+        }).exec();
+        return result;
     };
 };
 
